@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/network_error_view"
+        layout="@layout/network_error_view"
+        android:visibility="gone"/>
+
+    <include
+        android:id="@+id/server_error_view"
+        layout="@layout/server_error_view"
+        android:visibility="gone"/>
+
+    <include
+        android:id="@+id/progress_view"
+        layout="@layout/progress_view"
+        android:visibility="gone"/>
+
+    <RelativeLayout
+        android:id="@+id/content_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>
