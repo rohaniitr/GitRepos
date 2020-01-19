@@ -61,28 +61,28 @@ class RepoDetailFragment : BaseFragment() {
     private fun setUi() {
         author_name.text = getString(R.string.author_name, repo.author)
 
-        if (repo.description.isNotEmpty()) {
+        if (!repo.description.isNullOrEmpty()) {
             description.text = getString(R.string.quoted_text, repo.description)
             description.visibility = View.VISIBLE
         } else {
             description.visibility = View.GONE
         }
 
-        if (repo.language.isNotEmpty()) {
+        if (!repo.language.isNullOrEmpty()) {
             language.text = getString(R.string.language_name, repo.language)
             language.visibility = View.VISIBLE
         } else {
             language.visibility = View.GONE
         }
 
-        if (repo.forks.isNotEmpty()) {
+        if (!repo.forks.isNullOrEmpty()) {
             fork_count.text = getString(R.string.forks_count, repo.forks)
             fork_count.visibility = View.VISIBLE
         } else {
             fork_count.visibility = View.GONE
         }
 
-        if (repo.stars.isNotEmpty()) {
+        if (!repo.stars.isNullOrEmpty()) {
             star_count.text = getString(R.string.stars_count, repo.stars)
             star_count.visibility = View.VISIBLE
         } else {

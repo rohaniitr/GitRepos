@@ -1,31 +1,36 @@
 package com.appstreet.myapplication.repoList.model.data
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.appstreet.myapplication.database.DbConstants
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
+@Entity(tableName = DbConstants.REPO_TABLE)
 data class GitRepo(
-    var detailVisible: Boolean = false,
-    var id: Long = 0,
+    @PrimaryKey(autoGenerate = true)
+    val id: Long,
+    val projectId: Long,
     @SerializedName("url")
-    var repoUrl: String = "",
+    val repoUrl: String,
     @SerializedName("author")
-    var author: String = "",
+    val author: String,
     @SerializedName("name")
-    var name: String = "",
+    val name: String,
     @SerializedName("avatar")
-    var avatar: String = "",
+    val avatar: String,
     @SerializedName("description")
-    var description: String = "",
+    val description: String?,
     @SerializedName("language")
-    var language: String = "",
+    val language: String?,
     @SerializedName("languageColor")
-    var languageColor: String = "",
+    val languageColor: String?,
     @SerializedName("stars")
-    var stars: String = "",
+    val stars: String?,
     @SerializedName("forks")
-    var forks: String = "",
+    val forks: String?,
     @SerializedName("currentPeriodStars")
-    var currentPeriodStars: String = "",
+    val currentPeriodStars: String?,
     @SerializedName("builtBy")
-    var collaborators: List<User>
+    var collaborators: List<User>?
 ) : Serializable

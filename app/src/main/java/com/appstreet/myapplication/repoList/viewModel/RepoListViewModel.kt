@@ -9,6 +9,7 @@ import com.appstreet.myapplication.remote.ApiConst
 import com.appstreet.myapplication.repoList.model.data.GitRepo
 import com.appstreet.myapplication.repoList.model.repo.RepoModel
 import io.reactivex.SingleObserver
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
@@ -20,11 +21,15 @@ class RepoListViewModel : BaseViewModel() {
     fun getRepoList(): LiveData<List<GitRepo>> = repoList
 
     init {
-        if (repoList.value.isNullOrEmpty()) {
-            fetchRepoList()
-        } else {
+        val repos = repoModel.getSavedRepos()
+        if (!repos.isNullOrEmpty()) {
+            repoList.value = repos
             uiState.value = UiState.CONTENT
+        } else {
+            uiState.value = UiState.PROGRESS
         }
+
+        fetchRepoList()
     }
 
     fun onRetry() {
@@ -32,29 +37,37 @@ class RepoListViewModel : BaseViewModel() {
     }
 
     private fun fetchRepoList() {
-        uiState.value = UiState.PROGRESS
         repoModel.getTrendingRepos("weekly")
             .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : SingleObserver<List<GitRepo>> {
-                override fun onSuccess(value: List<GitRepo>?) {
-                    uiState.postValue(UiState.CONTENT)
-                    value?.let {
-                        repoList.postValue(it)
-                    }
+                override fun onSuccess(value: List<GitRepo>) {
+                    uiState.value = UiState.CONTENT
+                    repoList.value = value
+                    updateSavedRepos(value)
                 }
 
-                override fun onSubscribe(d: Disposable?) {
+                override fun onSubscribe(d: Disposable) {
                     disposable.add(d)
                 }
 
-                override fun onError(e: Throwable?) {
+                override fun onError(e: Throwable) {
+                    if (!repoList.value.isNullOrEmpty()) {
+                        return
+                    }
+
                     if (e is HttpException) {
-                        uiState.postValue(UiState.SERVER_ERROR)
+                        uiState.value = UiState.SERVER_ERROR
                         val statusCode = e.code()
                     } else {
-                        uiState.postValue(UiState.NETWORK_ERROR)
+                        uiState.value = UiState.NETWORK_ERROR
                     }
                 }
             })
+    }
+
+    private fun updateSavedRepos(repos: List<GitRepo>) {
+        repoModel.deleteAllRepos()
+        repoModel.saveRepos(repos)
     }
 }

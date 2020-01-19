@@ -1,6 +1,7 @@
 package com.appstreet.myapplication.repoList.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
