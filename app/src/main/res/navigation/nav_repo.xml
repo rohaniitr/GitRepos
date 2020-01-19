@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_repo"
     app:startDestination="@id/repoListFragment">
 
     <fragment
         android:id="@+id/repoListFragment"
         android:name="com.appstreet.myapplication.repoList.view.RepoListFragment"
-        android:label="RepoListFragment" />
+        android:label="RepoListFragment"
+        tools:layout="@layout/fragment_repo_list">
+        <action
+            android:id="@+id/action_repoListFragment_to_repoDetailFragment"
+            app:destination="@id/repoDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/repoDetailFragment"
+        android:name="com.appstreet.myapplication.repoDetail.view.RepoDetailFragment"
+        android:label="RepoDetailFragment"
+        tools:layout="@layout/fragment_repo_detail" />
 </navigation>

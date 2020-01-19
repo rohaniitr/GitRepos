@@ -4,4 +4,10 @@
     <string name="network_error_message">There is some issue with your Internet Connection.\nPlease check and retry again!</string>
     <string name="server_error_message">Something is broken at out end. we are looking into it.\nPlease retry after sometime!</string>
     <string name="progress_view_message">Loading. Please Wait...</string>
+    <string name="author_name">Author: %s</string>
+    <string name="quoted_text">\" %s \"</string>
+    <string name="stars_count">Stars : %s</string>
+    <string name="forks_count">Forks : %s</string>
+    <string name="language_name">Language : %s</string>
+    <string name="collaborator_text">Collaborators :</string>
 </resources>

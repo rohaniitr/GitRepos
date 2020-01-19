@@ -2,14 +2,15 @@ package com.appstreet.myapplication.repoList.view
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.appstreet.myapplication.R
 import com.appstreet.myapplication.base.BaseFragment
 import com.appstreet.myapplication.base.BaseViewModel
+import com.appstreet.myapplication.repoDetail.view.RepoDetailFragment
 import com.appstreet.myapplication.repoList.model.data.GitRepo
 import com.appstreet.myapplication.repoList.viewModel.RepoListViewModel
 import kotlinx.android.synthetic.main.fragment_repo_list.*
@@ -54,8 +55,10 @@ class RepoListFragment : BaseFragment() {
     }
 
     private fun onClick(repo: GitRepo) {
-        //Launch Repo Detail Fragment
-        Toast.makeText(context, "${repo.author}", Toast.LENGTH_SHORT).show()
+        findNavController().navigate(
+            R.id.action_repoListFragment_to_repoDetailFragment,
+            RepoDetailFragment.getBundle(repo)
+        )
     }
 
     private fun updateRecyclerView(repos: List<GitRepo>) {

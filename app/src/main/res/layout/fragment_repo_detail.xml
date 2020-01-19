@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/title_image"
+        android:layout_width="@dimen/dimen_32"
+        android:layout_height="@dimen/dimen_32"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_launcher_background" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:ellipsize="end"
+        android:fontFamily="@font/product_sans_regular"
+        android:maxLines="1"
+        android:textColor="@color/text_color_2"
+        android:textSize="@dimen/text_size_18"
+        app:layout_constraintBottom_toBottomOf="@id/title_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/title_image"
+        app:layout_constraintTop_toTopOf="@id/title_image"
+        tools:text="Loren Ipsum" />
+
+    <View
+        android:id="@+id/header_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1"
+        android:layout_marginTop="@dimen/margin_16"
+        android:background="@color/divider_color"
+        app:layout_constraintTop_toBottomOf="@id/title_image" />
+
+    <TextView
+        android:id="@+id/author_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:fontFamily="@font/product_sans_regular"
+        android:textColor="@color/text_color_1"
+        android:textSize="@dimen/text_size_15"
+        app:layout_constraintTop_toBottomOf="@id/header_divider"
+        tools:text="Lorem Ipsum Dolor" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_8"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:fontFamily="@font/product_sans_italic"
+        android:textColor="@color/text_color_1"
+        android:textSize="@dimen/text_size_12"
+        app:layout_constraintTop_toBottomOf="@id/author_name"
+        tools:text="\' Lorem Ipsum Dolor \'" />
+
+    <TextView
+        android:id="@+id/language"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_8"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:fontFamily="@font/product_sans_regular"
+        android:textColor="@color/text_color_1"
+        android:textSize="@dimen/text_size_15"
+        app:layout_constraintTop_toBottomOf="@id/description"
+        tools:text="Language : Kotlin" />
+
+    <TextView
+        android:id="@+id/star_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_2"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:fontFamily="@font/product_sans_regular"
+        android:textColor="@color/text_color_1"
+        android:textSize="@dimen/text_size_15"
+        app:layout_constraintTop_toBottomOf="@id/language"
+        tools:text="Stars : 34" />
+
+    <TextView
+        android:id="@+id/fork_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_2"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:fontFamily="@font/product_sans_regular"
+        android:textColor="@color/text_color_1"
+        android:textSize="@dimen/text_size_15"
+        app:layout_constraintTop_toBottomOf="@id/star_count"
+        tools:text="Forks : 34" />
+
+    <TextView
+        android:id="@+id/collaborator_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:fontFamily="@font/product_sans_bold"
+        android:text="@string/collaborator_text"
+        android:textColor="@color/text_color_3"
+        android:textSize="@dimen/text_size_12"
+        app:layout_constraintTop_toBottomOf="@id/fork_count" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_0"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_4"
+        android:layout_marginEnd="@dimen/margin_16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/collaborator_text"
+        tools:itemCount="5"
+        tools:listitem="@layout/item_collaborator" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
