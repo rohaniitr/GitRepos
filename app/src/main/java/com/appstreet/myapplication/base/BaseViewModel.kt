@@ -1,10 +1,20 @@
 package com.appstreet.myapplication.base
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.reactivex.disposables.CompositeDisposable
 
 abstract class BaseViewModel : ViewModel() {
-    var uiState: MutableLiveData<UiState> = MutableLiveData(UiState.CONTENT)
+    protected val uiState: MutableLiveData<UiState> by lazy { MutableLiveData(UiState.CONTENT) }
+    protected val disposable by lazy { CompositeDisposable() }
+
+    fun getUiState(): LiveData<UiState> = uiState
+
+    override fun onCleared() {
+        super.onCleared()
+        disposable.dispose()
+    }
 
     enum class UiState {
         PROGRESS,
