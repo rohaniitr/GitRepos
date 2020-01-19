@@ -6,5 +6,5 @@ import retrofit2.Retrofit
 class RepoModel(retrofit: Retrofit) {
     private val apiService by lazy { retrofit.create(ApiService::class.java) }
 
-
+    fun getTrendingRepos(since: String) = apiService.getTrendingRepos(since)
 }
