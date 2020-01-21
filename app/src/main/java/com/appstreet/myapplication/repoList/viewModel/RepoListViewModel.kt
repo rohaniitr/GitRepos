@@ -7,6 +7,7 @@ import com.appstreet.myapplication.remote.ApiClient
 import com.appstreet.myapplication.remote.ApiConst
 import com.appstreet.myapplication.repoList.model.data.GitRepo
 import com.appstreet.myapplication.repoList.model.repo.RepoModel
+import io.reactivex.Completable
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -20,26 +21,36 @@ class RepoListViewModel : BaseViewModel() {
     fun getRepoList(): LiveData<List<GitRepo>> = repoList
 
     init {
-        val repos = repoModel.getSavedRepos()
-        if (!repos.isNullOrEmpty()) {
-            repoList.value = repos
-            uiState.value = UiState.CONTENT
-        } else {
-            uiState.value = UiState.PROGRESS
-        }
+        uiState.value = UiState.PROGRESS
+        repoModel.getSavedRepos()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : SingleObserver<List<GitRepo>> {
+                override fun onSuccess(repos: List<GitRepo>) {
+                    if (!repos.isNullOrEmpty()) {
+                        repoList.value = repos
+                        uiState.value = UiState.CONTENT
+                    }
 
-        fetchRepoList(repoModel, uiState, repoList)
+                    fetchRepoList()
+                }
+
+                override fun onSubscribe(d: Disposable) {
+                    disposable.add(d)
+                }
+
+                override fun onError(e: Throwable) {
+                    fetchRepoList()
+                }
+            })
     }
 
     fun onRetry() {
-        fetchRepoList(repoModel, uiState, repoList)
+        uiState.value = UiState.PROGRESS
+        fetchRepoList()
     }
 
-    private fun fetchRepoList(
-        repoModel: RepoModel,
-        uiState: MutableLiveData<UiState>,
-        repoList: MutableLiveData<List<GitRepo>>
-    ) {
+    private fun fetchRepoList() {
         repoModel.getTrendingRepos("weekly")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -70,7 +81,13 @@ class RepoListViewModel : BaseViewModel() {
     }
 
     private fun updateSavedRepos(repoModel: RepoModel, repos: List<GitRepo>) {
-        repoModel.deleteAllRepos()
-        repoModel.saveRepos(repos)
+        val deleteRepos = Completable.fromAction { repoModel.deleteAllRepos() }
+        val saveRepos = Completable.fromAction { repoModel.saveRepos(repos) }
+
+        deleteRepos.andThen(saveRepos)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {}
+            .let { disposable.add(it) }
     }
 }

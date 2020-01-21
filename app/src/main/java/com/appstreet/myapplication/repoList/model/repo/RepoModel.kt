@@ -14,6 +14,6 @@ class RepoModel(retrofit: Retrofit) {
     fun getTrendingRepos(since: String) = apiService.getTrendingRepos(since)
 
     fun saveRepos(repos: List<GitRepo>) = repoDb.gitRepoDao().insertRepos(repos)
-    fun getSavedRepos(): List<GitRepo> = repoDb.gitRepoDao().getRepos()
+    fun getSavedRepos() = repoDb.gitRepoDao().getRepos()
     fun deleteAllRepos() = repoDb.gitRepoDao().deleteAllRepos()
 }

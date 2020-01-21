@@ -21,9 +21,7 @@ class AppApplication : Application() {
 
         appContext = this
 
-        //TODO - Shift from mainthread
         db = Room.databaseBuilder(applicationContext, RepoDb::class.java, DbConstants.DB_NAME)
-            .allowMainThreadQueries()
             .build()
     }
 }
