@@ -9,9 +9,10 @@ import com.appstreet.myapplication.R
 import com.appstreet.myapplication.repoList.model.data.GitRepo
 import com.appstreet.myapplication.util.imageCache.ImageUtil
 import kotlinx.android.synthetic.main.item_repo_list.view.*
+import javax.inject.Inject
 import kotlin.reflect.KFunction1
 
-class RepoListAdapter(
+class RepoListAdapter @Inject constructor(
     private val repos: List<GitRepo>,
     private val onClick: KFunction1<@ParameterName(name = "repo") GitRepo, Unit>
 ) :

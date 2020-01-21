@@ -2,18 +2,22 @@ package com.appstreet.myapplication.repoList.model.repo
 
 import android.util.Log
 import com.appstreet.myapplication.AppApplication
+import com.appstreet.myapplication.database.RepoDao
 import com.appstreet.myapplication.database.RepoDb
 import com.appstreet.myapplication.remote.ApiService
 import com.appstreet.myapplication.repoList.model.data.GitRepo
+import io.reactivex.Single
 import retrofit2.Retrofit
+import javax.inject.Inject
 
-class RepoModel(retrofit: Retrofit) {
-    private val apiService by lazy { retrofit.create(ApiService::class.java) }
-    private val repoDb: RepoDb by lazy { AppApplication.getDatabase() }
+class RepoModel @Inject constructor(
+    private val apiService: ApiService,
+    private val repoDao: RepoDao
+) {
 
     fun getTrendingRepos(since: String) = apiService.getTrendingRepos(since)
 
-    fun saveRepos(repos: List<GitRepo>) = repoDb.gitRepoDao().insertRepos(repos)
-    fun getSavedRepos() = repoDb.gitRepoDao().getRepos()
-    fun deleteAllRepos() = repoDb.gitRepoDao().deleteAllRepos()
+    fun saveRepos(repos: List<GitRepo>) = repoDao.insertRepos(repos)
+    fun getSavedRepos() = repoDao.getRepos()
+    fun deleteAllRepos() = repoDao.deleteAllRepos()
 }

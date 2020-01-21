@@ -9,10 +9,13 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.appstreet.myapplication.R
 import com.appstreet.myapplication.base.BaseFragment
+import com.appstreet.myapplication.dagger.CollaboratorModule
+import com.appstreet.myapplication.dagger.DaggerRepoDetailComponent
 import com.appstreet.myapplication.repoList.model.data.GitRepo
 import com.appstreet.myapplication.repoList.model.data.User
 import com.appstreet.myapplication.util.imageCache.ImageUtil
 import kotlinx.android.synthetic.main.fragment_repo_detail.*
+import javax.inject.Inject
 
 class RepoDetailFragment : BaseFragment() {
     companion object {
@@ -23,14 +26,29 @@ class RepoDetailFragment : BaseFragment() {
         }
     }
 
+    @Inject
+    lateinit var adapter: CollaboratorAdapter
     private val repo: GitRepo by lazy { arguments!!.getSerializable(BUNDLE_GIT_REPO) as GitRepo }
 
     override fun getLayoutId() = R.layout.fragment_repo_detail
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initDagger()
         setHeader()
         setUi()
+    }
+
+    private fun initDagger() {
+        val userList = if (repo.collaborators.isNullOrEmpty()) {
+            listOf<User>()
+        } else {
+            repo.collaborators
+        }
+
+        DaggerRepoDetailComponent.builder()
+            .collaboratorModule(CollaboratorModule(userList!!, ::onCollaboratorClick))
+            .build().inject(this)
     }
 
     private fun setHeader() {
@@ -84,7 +102,6 @@ class RepoDetailFragment : BaseFragment() {
             collaborator_text.visibility = View.VISIBLE
             recycler_view.visibility = View.VISIBLE
 
-            val adapter = CollaboratorAdapter(repo.collaborators!!, ::onCollaboratorClick)
             recycler_view.layoutManager = LinearLayoutManager(context)
             recycler_view.adapter = adapter
 

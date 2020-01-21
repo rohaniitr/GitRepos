@@ -2,7 +2,11 @@ package com.appstreet.myapplication.repoList.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.appstreet.myapplication.AppApplication
 import com.appstreet.myapplication.base.BaseViewModel
+import com.appstreet.myapplication.dagger.DaggerRepoListVMComponent
+import com.appstreet.myapplication.dagger.RepoListVMModule
+import com.appstreet.myapplication.database.DbConstants
 import com.appstreet.myapplication.remote.ApiClient
 import com.appstreet.myapplication.remote.ApiConst
 import com.appstreet.myapplication.repoList.model.data.GitRepo
@@ -13,15 +17,22 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
+import javax.inject.Inject
 
 class RepoListViewModel : BaseViewModel() {
     private val repoList by lazy { MutableLiveData(listOf<GitRepo>()) }
-    private val repoModel by lazy { RepoModel(ApiClient(ApiConst.BASE_URL).getApiClient()) }
+    @Inject
+    lateinit var repoModel: RepoModel
 
     fun getRepoList(): LiveData<List<GitRepo>> = repoList
 
     init {
+        DaggerRepoListVMComponent.builder()
+            .repoListVMModule(RepoListVMModule((ApiConst.BASE_URL)))
+            .build()
+            .inject(this)
         uiState.value = UiState.PROGRESS
+
         repoModel.getSavedRepos()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

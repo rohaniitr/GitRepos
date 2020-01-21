@@ -10,9 +10,10 @@ import com.appstreet.myapplication.R
 import com.appstreet.myapplication.repoList.model.data.User
 import com.appstreet.myapplication.util.imageCache.ImageUtil
 import kotlinx.android.synthetic.main.item_collaborator.view.*
+import javax.inject.Inject
 import kotlin.reflect.KFunction1
 
-class CollaboratorAdapter(
+class CollaboratorAdapter @Inject constructor(
     private val collaborators: List<User>,
     private val onClick: KFunction1<@ParameterName(name = "collaborator") User, Unit>
 ) :

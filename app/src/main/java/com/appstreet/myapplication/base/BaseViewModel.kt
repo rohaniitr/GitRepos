@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Inject
 
 abstract class BaseViewModel : ViewModel() {
     protected val uiState: MutableLiveData<UiState> by lazy { MutableLiveData(UiState.CONTENT) }
-    protected val disposable by lazy { CompositeDisposable() }
+    @Inject
+    protected lateinit var disposable: CompositeDisposable
 
     fun getUiState(): LiveData<UiState> = uiState
 

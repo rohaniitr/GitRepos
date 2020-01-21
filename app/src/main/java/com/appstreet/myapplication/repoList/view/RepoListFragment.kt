@@ -1,7 +1,6 @@
 package com.appstreet.myapplication.repoList.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -11,17 +10,27 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.appstreet.myapplication.R
 import com.appstreet.myapplication.base.BaseFragment
 import com.appstreet.myapplication.base.BaseViewModel
+import com.appstreet.myapplication.dagger.DaggerRepoListComponent
+import com.appstreet.myapplication.dagger.RepoListModule
 import com.appstreet.myapplication.repoDetail.view.RepoDetailFragment
 import com.appstreet.myapplication.repoList.model.data.GitRepo
 import com.appstreet.myapplication.repoList.viewModel.RepoListViewModel
 import kotlinx.android.synthetic.main.fragment_repo_list.*
+import javax.inject.Inject
 
 class RepoListFragment : BaseFragment() {
     override fun getLayoutId() = R.layout.fragment_repo_list
     private val viewModel by lazy { ViewModelProviders.of(this).get(RepoListViewModel::class.java) }
     private val repoList by lazy { mutableListOf<GitRepo>() }
-    private val adapter by lazy { RepoListAdapter(repoList, ::onClick) }
+    @Inject
+    lateinit var adapter: RepoListAdapter
 
+    init {
+        DaggerRepoListComponent.builder()
+            .repoListModule(RepoListModule(repoList, ::onClick))
+            .build()
+            .inject(this)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
