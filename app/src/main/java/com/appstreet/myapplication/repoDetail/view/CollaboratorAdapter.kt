@@ -5,12 +5,10 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.appstreet.myapplication.R
 import com.appstreet.myapplication.repoList.model.data.User
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.appstreet.myapplication.util.imageCache.ImageUtil
 import kotlinx.android.synthetic.main.item_collaborator.view.*
 import kotlin.reflect.KFunction1
 
@@ -43,14 +41,7 @@ class CollaboratorAdapter(
 
             with(itemView) {
                 collaborator_name.text = collaborator.userName
-
-                Glide.with(context)
-                    .load(collaborator.avatar)
-                    .placeholder(R.mipmap.ic_launcher)
-                    .error(R.mipmap.ic_launcher)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .circleCrop()
-                    .into(collaborator_image)
+                ImageUtil.loadImage(context, collaborator_image, collaborator.avatar)
 
                 setOnClickListener {
                     onClick(collaborator)

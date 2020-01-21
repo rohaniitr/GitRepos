@@ -1,13 +1,13 @@
 package com.appstreet.myapplication.repoList.view
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.appstreet.myapplication.R
 import com.appstreet.myapplication.repoList.model.data.GitRepo
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.appstreet.myapplication.util.imageCache.ImageUtil
 import kotlinx.android.synthetic.main.item_repo_list.view.*
 import kotlin.reflect.KFunction1
 
@@ -42,13 +42,9 @@ class RepoListAdapter(
                 author_name.text = repo.author
                 project_name.text = repo.name
 
-                Glide.with(context)
-                    .load(repo.avatar)
-                    .placeholder(R.mipmap.ic_launcher)
-                    .error(R.mipmap.ic_launcher)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .circleCrop()
-                    .into(profile_pic)
+                Log.i("ROHAN", repo.avatar)
+
+                ImageUtil.loadImage(context, profile_pic, repo.avatar)
 
                 setOnClickListener {
                     onClick(repo)

@@ -57,6 +57,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    testImplementation 'org.mockito:mockito-core:2.25.0'
 
     def ROOM_VERSION = "2.1.0-alpha01"
     implementation "androidx.room:room-runtime:$ROOM_VERSION"
@@ -67,4 +68,7 @@ dependencies {
     def RX_ANDROID_VERSION = "2.0.1"
     implementation "io.reactivex.rxjava2:rxjava:$RX_JAVA_VERSION"
     implementation "io.reactivex.rxjava2:rxandroid:$RX_ANDROID_VERSION"
+
+    def DOWNLOADER_VERSION = "0.6.0"
+    implementation "com.mindorks.android:prdownloader:$DOWNLOADER_VERSION"
 }

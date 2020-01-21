@@ -13,7 +13,7 @@ abstract class BaseViewModel : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        disposable.dispose()
+        disposable.clear()
     }
 
     enum class UiState {

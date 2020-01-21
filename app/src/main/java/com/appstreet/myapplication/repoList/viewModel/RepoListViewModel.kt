@@ -1,6 +1,5 @@
 package com.appstreet.myapplication.repoList.viewModel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.appstreet.myapplication.base.BaseViewModel
@@ -29,14 +28,18 @@ class RepoListViewModel : BaseViewModel() {
             uiState.value = UiState.PROGRESS
         }
 
-        fetchRepoList()
+        fetchRepoList(repoModel, uiState, repoList)
     }
 
     fun onRetry() {
-        fetchRepoList()
+        fetchRepoList(repoModel, uiState, repoList)
     }
 
-    private fun fetchRepoList() {
+    private fun fetchRepoList(
+        repoModel: RepoModel,
+        uiState: MutableLiveData<UiState>,
+        repoList: MutableLiveData<List<GitRepo>>
+    ) {
         repoModel.getTrendingRepos("weekly")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -44,7 +47,7 @@ class RepoListViewModel : BaseViewModel() {
                 override fun onSuccess(value: List<GitRepo>) {
                     uiState.value = UiState.CONTENT
                     repoList.value = value
-                    updateSavedRepos(value)
+                    updateSavedRepos(repoModel, value)
                 }
 
                 override fun onSubscribe(d: Disposable) {
@@ -66,7 +69,7 @@ class RepoListViewModel : BaseViewModel() {
             })
     }
 
-    private fun updateSavedRepos(repos: List<GitRepo>) {
+    private fun updateSavedRepos(repoModel: RepoModel, repos: List<GitRepo>) {
         repoModel.deleteAllRepos()
         repoModel.saveRepos(repos)
     }

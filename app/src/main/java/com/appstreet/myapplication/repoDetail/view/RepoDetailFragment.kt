@@ -11,8 +11,7 @@ import com.appstreet.myapplication.R
 import com.appstreet.myapplication.base.BaseFragment
 import com.appstreet.myapplication.repoList.model.data.GitRepo
 import com.appstreet.myapplication.repoList.model.data.User
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.appstreet.myapplication.util.imageCache.ImageUtil
 import kotlinx.android.synthetic.main.fragment_repo_detail.*
 
 class RepoDetailFragment : BaseFragment() {
@@ -41,13 +40,7 @@ class RepoDetailFragment : BaseFragment() {
 
     private fun setHeader() {
         title.text = repo.name
-        Glide.with(context!!)
-            .load(repo.avatar)
-            .placeholder(R.drawable.ic_launcher_foreground)
-            .error(R.drawable.ic_launcher_foreground)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .circleCrop()
-            .into(title_image)
+        ImageUtil.loadImage(context!!, title_image, repo.avatar)
 
         val clickListener = View.OnClickListener {
             val browserIntent =

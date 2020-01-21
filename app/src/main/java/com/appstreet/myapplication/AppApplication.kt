@@ -10,12 +10,17 @@ import com.appstreet.myapplication.database.RepoDb
 class AppApplication : Application() {
     companion object {
         private lateinit var db: RepoDb
+        private lateinit var appContext: Context
 
         fun getDatabase(): RepoDb = db
+        fun getInstance(): Context = appContext
     }
 
     override fun onCreate() {
         super.onCreate()
+
+        appContext = this
+
         //TODO - Shift from mainthread
         db = Room.databaseBuilder(applicationContext, RepoDb::class.java, DbConstants.DB_NAME)
             .allowMainThreadQueries()
