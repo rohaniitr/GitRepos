@@ -23,14 +23,9 @@ class RepoDetailFragment : BaseFragment() {
         }
     }
 
-    private lateinit var repo: GitRepo
+    private val repo: GitRepo by lazy { arguments!!.getSerializable(BUNDLE_GIT_REPO) as GitRepo }
 
     override fun getLayoutId() = R.layout.fragment_repo_detail
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        repo = arguments!!.getSerializable(BUNDLE_GIT_REPO) as GitRepo
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
