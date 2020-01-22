@@ -2,12 +2,9 @@ package com.appstreet.myapplication.repoList.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.appstreet.myapplication.AppApplication
 import com.appstreet.myapplication.base.BaseViewModel
 import com.appstreet.myapplication.dagger.DaggerRepoListVMComponent
 import com.appstreet.myapplication.dagger.RepoListVMModule
-import com.appstreet.myapplication.database.DbConstants
-import com.appstreet.myapplication.remote.ApiClient
 import com.appstreet.myapplication.remote.ApiConst
 import com.appstreet.myapplication.repoList.model.data.GitRepo
 import com.appstreet.myapplication.repoList.model.repo.RepoModel

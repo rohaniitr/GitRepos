@@ -1,8 +1,6 @@
 package com.appstreet.myapplication.dagger
 
-import com.appstreet.myapplication.AppApplication
 import com.appstreet.myapplication.database.DatabaseHelper
-import com.appstreet.myapplication.database.RepoDb
 import com.appstreet.myapplication.remote.ApiService
 import com.appstreet.myapplication.repoList.model.repo.RepoModel
 import dagger.Module

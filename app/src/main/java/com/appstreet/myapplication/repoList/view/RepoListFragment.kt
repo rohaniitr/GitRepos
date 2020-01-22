@@ -12,6 +12,9 @@ import com.appstreet.myapplication.base.BaseFragment
 import com.appstreet.myapplication.base.BaseViewModel
 import com.appstreet.myapplication.dagger.DaggerRepoListComponent
 import com.appstreet.myapplication.dagger.RepoListModule
+import com.appstreet.myapplication.dagger.RepoListVMModule
+import com.appstreet.myapplication.dagger.ViewModelModule
+import com.appstreet.myapplication.remote.ApiConst
 import com.appstreet.myapplication.repoDetail.view.RepoDetailFragment
 import com.appstreet.myapplication.repoList.model.data.GitRepo
 import com.appstreet.myapplication.repoList.viewModel.RepoListViewModel
@@ -20,22 +23,25 @@ import javax.inject.Inject
 
 class RepoListFragment : BaseFragment() {
     override fun getLayoutId() = R.layout.fragment_repo_list
-    private val viewModel by lazy { ViewModelProviders.of(this).get(RepoListViewModel::class.java) }
+    @Inject
+    lateinit var viewModel: RepoListViewModel
     private val repoList by lazy { mutableListOf<GitRepo>() }
     @Inject
     lateinit var adapter: RepoListAdapter
 
-    init {
-        DaggerRepoListComponent.builder()
-            .repoListModule(RepoListModule(repoList, ::onClick))
-            .build()
-            .inject(this)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initDagger()
         setRecyclerView()
         setObservers()
+    }
+
+    private fun initDagger() {
+        DaggerRepoListComponent.builder()
+            .repoListModule(RepoListModule(repoList, ::onClick))
+            .viewModelModule(ViewModelModule(this))
+            .build()
+            .inject(this)
     }
 
     private fun setObservers() {

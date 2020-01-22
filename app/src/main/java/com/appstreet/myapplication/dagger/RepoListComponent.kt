@@ -5,7 +5,7 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [RepoListModule::class])
+@Component(modules = [RepoListModule::class, ViewModelModule::class])
 interface RepoListComponent {
 
     fun inject(target: RepoListFragment)
