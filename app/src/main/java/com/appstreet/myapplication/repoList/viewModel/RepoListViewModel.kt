@@ -16,6 +16,7 @@ import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 import javax.inject.Inject
 
+//repoModel & disposable should have been injected through Constructor
 class RepoListViewModel : BaseViewModel() {
     private val repoList by lazy { MutableLiveData(listOf<GitRepo>()) }
     @Inject
